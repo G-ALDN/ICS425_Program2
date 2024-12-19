@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tasks Update</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    nav {
+      background-color: #f4f4f4;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      margin: 0 10px;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: auto;
+      border: 1px solid #ddd;
+      background-color: #f9f9f9;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+    .form-container {
+      margin: 20px auto;
+      text-align: center;
+      width: 100%;
+      max-width: 750px;
+    }
+    .form-container form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-container input{
+      padding: 5px;
+      font-size: 0.8rem;
+    }
+    .form-container button {
+      padding: 5px;
+    }
+    .form-container input[type="text"] {
+      flex: 2;
+    }
+    .form-container input[id="id"] {
+      display: none;
+    }
+    .form-container input[type="date"] {
+      flex: 1;
+    }
+    .form-container input[type="checkbox"] {
+      flex: 0.125;
+    }
+    .form-container button {
+      flex: 1;
+      width: 100%;
+    }
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .delete-button{
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+<nav>
+  <span th:text="${user.username}"></span>
+  <div>
+    <a href="/user/home">Home</a>
+    <a href="/logout">Log Out</a>
+  </div>
+</nav>
+<div class="container">
+  <h2>Task Update</h2>
+</div>
+<div class="form-container">
+  <form method="post" th:object="${task}">
+    <div><button type="submit" formaction="/user/tasks/update">Update Task</button></div>
+    <input type="text" id="id" name="id" th:field="*{id}" readonly>
+    <input type="text" id="description" name="description" placeholder="Task Description" th:field="*{description}">
+    <input type="date" id="date" name="date" th:field="*{date}">
+    <input type="text" id="category" name="category" placeholder="Category" th:field="*{category}">
+    <label style="margin-left: 20px" for="completed">Completed:</label><br>
+    <input type="checkbox" id="completed" name="completed" th:field="*{completed}">
+    <div class="delete-button"><button type="submit" th:formaction="@{/user/tasks/{id}/delete (id=${task.id})}">Delete Task</button></div>
+  </form>
+  <ul th:if="${hasErrors}">
+    <li>
+      <span class="error" th:errors="${task.description}"></span>
+    </li>
+    <li>
+      <span class="error" th:errors="${task.date}"></span>
+    </li>
+  </ul>
+</div>
+</body>
+</html>
